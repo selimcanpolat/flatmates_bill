@@ -1,5 +1,5 @@
 import webbrowser
-
+import os
 from fpdf import FPDF
 
 
@@ -13,15 +13,14 @@ class PdfReport:
         self.filename = filename
 
     def generate(self, flatmate1, flatmate2, bill):
-
-        flatmate1_pay = str(round(flatmate1.pays(bill, flatmate2),2))
-        flatmate2_pay = str(round(flatmate2.pays(bill, flatmate1),2))
+        flatmate1_pay = str(round(flatmate1.pays(bill, flatmate2), 2))
+        flatmate2_pay = str(round(flatmate2.pays(bill, flatmate1), 2))
 
         pdf = FPDF(orientation="P", unit="pt", format="A4")
         pdf.add_page()
 
         # Add icon
-        pdf.image("house.png", w=30, h=30)
+        pdf.image("files/house.png", w=30, h=30)
 
         # Insert title
         pdf.set_font(family="Helvetica", size=24, style="B")
@@ -35,13 +34,15 @@ class PdfReport:
         # Insert name and the due amount of the first flatmate
         pdf.set_font(family="Helvetica", size=16, style="B")
         pdf.cell(w=0, h=20, txt=flatmate1.name, border=0)
-        pdf.cell(w=0, h=20, txt=flatmate1_pay, border=0, align="C",ln=1)
+        pdf.cell(w=0, h=20, txt=flatmate1_pay, border=0, align="C", ln=1)
 
         # Insert name and the due amount of the second flatmate
         pdf.set_font(family="Helvetica", size=16, style="B")
         pdf.cell(w=0, h=20, txt=flatmate2.name, border=0)
         pdf.cell(w=0, h=20, txt=flatmate2_pay, border=0, align="C")
 
+        # Change directory to files, generate and open PDF
+        os.chdir("files")
         pdf.output(self.filename)
 
-        webbrowser.open(self.filename) # Automatically open the PDF
+        webbrowser.open(self.filename)  # Automatically open the PDF
