@@ -4,7 +4,7 @@ class Bill:
     and period of the bill.
     """
 
-    def __init__(self, amount, period):  # Alt + Enter == automatic instance creation
+    def __init__(self, amount, period):
         self.period = period
         self.amount = amount
 
@@ -18,8 +18,8 @@ class Flatmate:
         self.name = name
         self.days_in_house = days_in_house
 
-    def pays(self, bill):
-        return bill.amount / 2
+    def pays(self, bill, flatmate2):
+        return bill.amount * (self.days_in_house / (flatmate2.days_in_house + self.days_in_house))
 
 
 class PdfReport:
@@ -34,8 +34,9 @@ class PdfReport:
     def generate(self, flatmate1, flatmate2, bill):
         pass
 
-the_bill = Bill(amount=120, period="March 2021")
+the_bill = Bill(amount=120, period=30)
 john = Flatmate(name="John", days_in_house=20)
 mary = Flatmate(name="Mary",days_in_house=25)
 
-print(john.pays(bill=the_bill))
+print("Mary pays:",mary.pays(bill=the_bill, flatmate2=john))
+print("John pays:", john.pays(bill=the_bill,flatmate2=mary))
