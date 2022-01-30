@@ -1,5 +1,4 @@
 import webbrowser
-
 from fpdf import FPDF
 
 
@@ -70,12 +69,22 @@ class PdfReport:
 
         webbrowser.open(self.filename) # Automatically open the PDF
 
-the_bill = Bill(amount=120, period="April 2021")
-john = Flatmate(name="John", days_in_house=20)
-mary = Flatmate(name="Mary",days_in_house=25)
+amount = float(input("Hey user, enter the bill amount: "))
+period = input("Please enter the period, eg. Mar 2021: ")
 
-print("Mary pays:",mary.pays(bill=the_bill, flatmate2=john))
-print("John pays:", john.pays(bill=the_bill,flatmate2=mary))
+name_1 = input("Please enter the name of the first flatmate: ")
+days_1 = int(input(f"How many days did {name_1} stay in the house? "))
 
-pdf_report = PdfReport(filename="Report1.pdf")
-pdf_report.generate(john, mary, the_bill)
+name_2 = input("Please enter the name of the second flatmate: ")
+days_2 = int(input(f"How many days did {name_2} stay in the house? "))
+
+
+the_bill = Bill(amount=amount, period=period)
+first_flatmate = Flatmate(name=name_1, days_in_house=days_1)
+second_flatmate = Flatmate(name=name_2, days_in_house=days_2)
+
+print(f"{first_flatmate.name} pays:", second_flatmate.pays(the_bill, flatmate2=first_flatmate))
+print(f"{second_flatmate.name} pays:",first_flatmate.pays(the_bill, flatmate2=second_flatmate))
+
+pdf_report = PdfReport(filename=f"{the_bill.period}.pdf")
+pdf_report.generate(first_flatmate, second_flatmate, the_bill)
